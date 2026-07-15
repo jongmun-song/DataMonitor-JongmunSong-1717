@@ -60,6 +60,11 @@ private:
     // docs/design/phase4-production-line-view.md).
     void handleProductionLineView();
 
+    // Menu "5. 출고 가능 조회": reloads orders and prints CONFIRMED orders
+    // (i.e. orders awaiting release) as a table (see
+    // docs/design/phase5-release-candidates-view.md).
+    void handleReleaseCandidatesView();
+
     SampleDataSource& samples_;
     OrderDataSource& orders_;
     ProductionQueueDataSource& productionQueue_;

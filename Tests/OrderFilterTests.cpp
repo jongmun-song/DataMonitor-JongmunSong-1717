@@ -106,3 +106,42 @@ TEST(OrderFilterTest, RejectedStateCanBeFilteredExplicitly)
     EXPECT_EQ(result[0].id, 5);
     EXPECT_EQ(result[0].state, OrderState::REJECTED);
 }
+
+// FindReleaseCandidates (see docs/design/phase5-release-candidates-view.md):
+// release candidates are exactly the CONFIRMED orders.
+
+TEST(FindReleaseCandidatesTest, ReturnsOnlyConfirmedOrdersFromMixedStates)
+{
+    const std::vector<Order> orders = MakeMixedStateOrders();
+
+    const std::vector<Order> result = FindReleaseCandidates(orders);
+
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].id, 2);
+    EXPECT_EQ(result[0].state, OrderState::CONFIRMED);
+}
+
+TEST(FindReleaseCandidatesTest, ReturnsEmptyVectorWhenNoOrderIsConfirmed)
+{
+    std::vector<Order> orders;
+    Order reserved;
+    reserved.id = 1;
+    reserved.state = OrderState::RESERVED;
+    orders.push_back(reserved);
+
+    Order rejected;
+    rejected.id = 2;
+    rejected.state = OrderState::REJECTED;
+    orders.push_back(rejected);
+
+    std::vector<Order> result;
+    EXPECT_NO_THROW(result = FindReleaseCandidates(orders));
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(FindReleaseCandidatesTest, EmptyInputListReturnsEmptyVector)
+{
+    const std::vector<Order> emptyOrders;
+
+    EXPECT_TRUE(FindReleaseCandidates(emptyOrders).empty());
+}

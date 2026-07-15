@@ -16,3 +16,8 @@
 std::vector<DataPersistence::Model::Order> FilterOrdersByState(
     const std::vector<DataPersistence::Model::Order>& orders,
     std::optional<DataPersistence::Model::OrderState> state);
+
+// Returns CONFIRMED orders (i.e. orders awaiting release). See
+// docs/design/phase5-release-candidates-view.md.
+std::vector<DataPersistence::Model::Order> FindReleaseCandidates(
+    const std::vector<DataPersistence::Model::Order>& orders);

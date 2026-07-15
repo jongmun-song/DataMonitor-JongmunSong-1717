@@ -20,3 +20,9 @@ std::vector<DataPersistence::Model::Order> FilterOrdersByState(
         });
     return filtered;
 }
+
+std::vector<DataPersistence::Model::Order> FindReleaseCandidates(
+    const std::vector<DataPersistence::Model::Order>& orders)
+{
+    return FilterOrdersByState(orders, DataPersistence::Model::OrderState::CONFIRMED);
+}

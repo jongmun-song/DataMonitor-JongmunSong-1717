@@ -95,6 +95,7 @@ void ConsoleApp::printMenu() const
     std::cout << "2. 주문 리스트 조회\n";
     std::cout << "3. 모니터링 요약\n";
     std::cout << "4. 생산라인 조회\n";
+    std::cout << "5. 출고 가능 조회\n";
     std::cout << "0. 종료\n";
     std::cout << "선택: ";
 }
@@ -132,6 +133,12 @@ bool ConsoleApp::handleChoice(const std::string& choice)
     if (choice == "4")
     {
         handleProductionLineView();
+        return true;
+    }
+
+    if (choice == "5")
+    {
+        handleReleaseCandidatesView();
         return true;
     }
 
@@ -348,5 +355,37 @@ void ConsoleApp::handleProductionLineView()
             << std::setw(10) << entry.actualProductionQuantity
             << "\n";
         ++order;
+    }
+}
+
+void ConsoleApp::handleReleaseCandidatesView()
+{
+    orders_.reload();
+    const std::vector<DataPersistence::Model::Order> releaseCandidates =
+        FindReleaseCandidates(orders_.all());
+
+    std::cout << "\n--- 출고 가능 조회 (CONFIRMED) ---\n";
+
+    if (releaseCandidates.empty())
+    {
+        std::cout << "출고 가능한 주문이 없습니다\n";
+        return;
+    }
+
+    std::cout << std::left
+        << std::setw(10) << "주문번호"
+        << std::setw(16) << "고객명"
+        << std::setw(10) << "시료ID"
+        << std::setw(10) << "수량"
+        << "\n";
+
+    for (const auto& order : releaseCandidates)
+    {
+        std::cout << std::left
+            << std::setw(10) << order.id
+            << std::setw(16) << order.customerName
+            << std::setw(10) << order.sampleId
+            << std::setw(10) << order.orderedQuantity
+            << "\n";
     }
 }
