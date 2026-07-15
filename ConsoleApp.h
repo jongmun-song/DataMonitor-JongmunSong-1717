@@ -55,6 +55,11 @@ private:
     // stock quantity, level (여유/부족/고갈), and remaining ratio (%).
     void printStockLevels();
 
+    // Menu "4. 생산라인 조회": reloads the production queue and prints the
+    // currently-producing entry plus the waiting queue in FIFO order (see
+    // docs/design/phase4-production-line-view.md).
+    void handleProductionLineView();
+
     SampleDataSource& samples_;
     OrderDataSource& orders_;
     ProductionQueueDataSource& productionQueue_;

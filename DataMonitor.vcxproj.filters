@@ -59,6 +59,9 @@
     <ClCompile Include="StockLevel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ProductionQueueView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="DataSource\SampleDataSource.cpp">
       <Filter>DataSource</Filter>
     </ClCompile>
@@ -80,6 +83,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="StockLevel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductionQueueView.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DataSource\SampleDataSource.h">

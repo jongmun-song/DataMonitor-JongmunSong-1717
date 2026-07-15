@@ -8,6 +8,7 @@
 
 #include "OrderFilter.h"
 #include "OrderStateCounts.h"
+#include "ProductionQueueView.h"
 #include "StockLevel.h"
 
 namespace
@@ -93,6 +94,7 @@ void ConsoleApp::printMenu() const
     std::cout << "1. 시료 관리 조회\n";
     std::cout << "2. 주문 리스트 조회\n";
     std::cout << "3. 모니터링 요약\n";
+    std::cout << "4. 생산라인 조회\n";
     std::cout << "0. 종료\n";
     std::cout << "선택: ";
 }
@@ -124,6 +126,12 @@ bool ConsoleApp::handleChoice(const std::string& choice)
     if (choice == "3")
     {
         handleMonitoringSummary();
+        return true;
+    }
+
+    if (choice == "4")
+    {
+        handleProductionLineView();
         return true;
     }
 
@@ -281,5 +289,64 @@ void ConsoleApp::printStockLevels()
             << std::setw(10) << ToKoreanString(level)
             << std::fixed << std::setprecision(1) << remainingRatioPercent << "%"
             << "\n";
+    }
+}
+
+void ConsoleApp::handleProductionLineView()
+{
+    productionQueue_.reload();
+    const auto& queue = productionQueue_.all();
+
+    std::cout << "\n--- 생산라인 조회 ---\n";
+
+    std::cout << "\n[현재 처리 중]\n";
+    const std::optional<DataPersistence::Model::ProductionQueueEntry> currentlyProducing =
+        FindCurrentlyProducing(queue);
+
+    if (!currentlyProducing.has_value())
+    {
+        std::cout << "현재 처리 중인 항목 없음\n";
+    }
+    else
+    {
+        std::cout << "주문번호: " << currentlyProducing->orderId << "\n";
+        std::cout << "시료ID  : " << currentlyProducing->sampleId << "\n";
+        std::cout << "주문량  : " << currentlyProducing->orderedQuantity << "\n";
+        std::cout << "부족분  : " << currentlyProducing->shortageQuantity << "\n";
+        std::cout << "실생산량: " << currentlyProducing->actualProductionQuantity << "\n";
+        std::cout << "총생산시간: " << currentlyProducing->totalProductionTime << "\n";
+    }
+
+    std::cout << "\n[대기 중인 주문 (FIFO)]\n";
+    const std::vector<DataPersistence::Model::ProductionQueueEntry> waitingQueue =
+        WaitingQueueInFifoOrder(queue);
+
+    if (waitingQueue.empty())
+    {
+        std::cout << "대기 중인 주문 없음\n";
+        return;
+    }
+
+    std::cout << std::left
+        << std::setw(6) << "순번"
+        << std::setw(10) << "주문번호"
+        << std::setw(10) << "시료ID"
+        << std::setw(10) << "주문량"
+        << std::setw(10) << "부족분"
+        << std::setw(10) << "실생산량"
+        << "\n";
+
+    int order = 1;
+    for (const auto& entry : waitingQueue)
+    {
+        std::cout << std::left
+            << std::setw(6) << order
+            << std::setw(10) << entry.orderId
+            << std::setw(10) << entry.sampleId
+            << std::setw(10) << entry.orderedQuantity
+            << std::setw(10) << entry.shortageQuantity
+            << std::setw(10) << entry.actualProductionQuantity
+            << "\n";
+        ++order;
     }
 }
