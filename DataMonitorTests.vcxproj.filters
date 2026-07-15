@@ -53,6 +53,18 @@
     <ClCompile Include="Tests\OrderFilterTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="OrderStateCounts.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\OrderStateCountsTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="StockLevel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\StockLevelTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataSource\SampleDataSource.h">
@@ -80,6 +92,12 @@
       <Filter>Tests</Filter>
     </ClInclude>
     <ClInclude Include="OrderFilter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="OrderStateCounts.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="StockLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -42,6 +42,19 @@ private:
     // docs/design/phase2-order-list-view.md).
     void handleOrderListView();
 
+    // Menu "3. 모니터링 요약": shows a submenu (주문량 확인/재고량 확인) and
+    // dispatches to the matching handler (see
+    // docs/design/phase3-monitoring-summary.md).
+    void handleMonitoringSummary();
+
+    // Submenu "1. 주문량 확인": reloads orders and prints RESERVED/CONFIRMED/
+    // PRODUCING/RELEASE counts (REJECTED is excluded).
+    void printOrderStateCounts();
+
+    // Submenu "2. 재고량 확인": reloads samples and prints each sample's
+    // stock quantity, level (여유/부족/고갈), and remaining ratio (%).
+    void printStockLevels();
+
     SampleDataSource& samples_;
     OrderDataSource& orders_;
     ProductionQueueDataSource& productionQueue_;

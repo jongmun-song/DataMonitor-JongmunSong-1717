@@ -156,6 +156,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ConsoleApp.cpp" />
     <ClCompile Include="OrderFilter.cpp" />
+    <ClCompile Include="OrderStateCounts.cpp" />
+    <ClCompile Include="StockLevel.cpp" />
     <ClCompile Include="DataSource\SampleDataSource.cpp" />
     <ClCompile Include="DataSource\OrderDataSource.cpp" />
     <ClCompile Include="DataSource\ProductionQueueDataSource.cpp" />
@@ -163,6 +165,8 @@
   <ItemGroup>
     <ClInclude Include="ConsoleApp.h" />
     <ClInclude Include="OrderFilter.h" />
+    <ClInclude Include="OrderStateCounts.h" />
+    <ClInclude Include="StockLevel.h" />
     <ClInclude Include="DataSource\SampleDataSource.h" />
     <ClInclude Include="DataSource\OrderDataSource.h" />
     <ClInclude Include="DataSource\ProductionQueueDataSource.h" />

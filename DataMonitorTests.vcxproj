@@ -142,10 +142,14 @@
     <ClCompile Include="DataSource\OrderDataSource.cpp" />
     <ClCompile Include="DataSource\ProductionQueueDataSource.cpp" />
     <ClCompile Include="OrderFilter.cpp" />
+    <ClCompile Include="OrderStateCounts.cpp" />
+    <ClCompile Include="StockLevel.cpp" />
     <ClCompile Include="Tests\SampleDataSourceTests.cpp" />
     <ClCompile Include="Tests\OrderDataSourceTests.cpp" />
     <ClCompile Include="Tests\ProductionQueueDataSourceTests.cpp" />
     <ClCompile Include="Tests\OrderFilterTests.cpp" />
+    <ClCompile Include="Tests\OrderStateCountsTests.cpp" />
+    <ClCompile Include="Tests\StockLevelTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataSource\SampleDataSource.h" />
@@ -157,6 +161,8 @@
     <ClInclude Include="external\nlohmann\json.hpp" />
     <ClInclude Include="Tests\TestTempFile.h" />
     <ClInclude Include="OrderFilter.h" />
+    <ClInclude Include="OrderStateCounts.h" />
+    <ClInclude Include="StockLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
