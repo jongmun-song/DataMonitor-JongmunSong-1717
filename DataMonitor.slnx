@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DataMonitor.vcxproj" Id="eb6ea37f-20c9-4311-ab3d-5673866cfd73" />
+  <Project Path="DataMonitorTests.vcxproj" Id="9a2c7e3b-5b4e-4f1a-8f0c-3d6a9c2b7e01" />
+</Solution>

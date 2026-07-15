@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="DataSource">
+      <UniqueIdentifier>{6C9E6F1A-4B7A-4E4E-9F0A-2C1F5F3C2A01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataModel">
+      <UniqueIdentifier>{6C9E6F1A-4B7A-4E4E-9F0A-2C1F5F3C2A02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{6C9E6F1A-4B7A-4E4E-9F0A-2C1F5F3C2A03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\nlohmann">
+      <UniqueIdentifier>{6C9E6F1A-4B7A-4E4E-9F0A-2C1F5F3C2A04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{6C9E6F1A-4B7A-4E4E-9F0A-2C1F5F3C2A05}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataSource\SampleDataSource.cpp">
+      <Filter>DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSource\OrderDataSource.cpp">
+      <Filter>DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSource\ProductionQueueDataSource.cpp">
+      <Filter>DataSource</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\SampleDataSourceTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\OrderDataSourceTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\ProductionQueueDataSourceTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataSource\SampleDataSource.h">
+      <Filter>DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSource\OrderDataSource.h">
+      <Filter>DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSource\ProductionQueueDataSource.h">
+      <Filter>DataSource</Filter>
+    </ClInclude>
+    <ClInclude Include="dataModel\Sample.h">
+      <Filter>dataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="dataModel\Order.h">
+      <Filter>dataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="dataModel\ProductionQueueEntry.h">
+      <Filter>dataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="external\nlohmann\json.hpp">
+      <Filter>external\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\TestTempFile.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

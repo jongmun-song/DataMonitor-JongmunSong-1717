@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.suo
+
+# Build output / intermediate
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+DataMonitor/Debug/
+DataMonitor/x64/
+DataMonitorTests/Debug/
+DataMonitorTests/x64/
+*.obj
+*.pdb
+*.ilk
+*.tlog/
+*.log
+*.exp
+*.lib
+
+# NuGet restored packages (restored via packages.config)
+packages/
