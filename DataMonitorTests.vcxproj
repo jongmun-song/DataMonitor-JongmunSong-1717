@@ -145,6 +145,7 @@
     <ClCompile Include="OrderStateCounts.cpp" />
     <ClCompile Include="StockLevel.cpp" />
     <ClCompile Include="ProductionQueueView.cpp" />
+    <ClCompile Include="Refresh.cpp" />
     <ClCompile Include="Tests\SampleDataSourceTests.cpp" />
     <ClCompile Include="Tests\OrderDataSourceTests.cpp" />
     <ClCompile Include="Tests\ProductionQueueDataSourceTests.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="Tests\OrderStateCountsTests.cpp" />
     <ClCompile Include="Tests\StockLevelTests.cpp" />
     <ClCompile Include="Tests\ProductionQueueViewTests.cpp" />
+    <ClCompile Include="Tests\RefreshTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataSource\SampleDataSource.h" />
@@ -166,6 +168,7 @@
     <ClInclude Include="OrderStateCounts.h" />
     <ClInclude Include="StockLevel.h" />
     <ClInclude Include="ProductionQueueView.h" />
+    <ClInclude Include="Refresh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

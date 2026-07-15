@@ -159,6 +159,7 @@
     <ClCompile Include="OrderStateCounts.cpp" />
     <ClCompile Include="StockLevel.cpp" />
     <ClCompile Include="ProductionQueueView.cpp" />
+    <ClCompile Include="Refresh.cpp" />
     <ClCompile Include="DataSource\SampleDataSource.cpp" />
     <ClCompile Include="DataSource\OrderDataSource.cpp" />
     <ClCompile Include="DataSource\ProductionQueueDataSource.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="OrderStateCounts.h" />
     <ClInclude Include="StockLevel.h" />
     <ClInclude Include="ProductionQueueView.h" />
+    <ClInclude Include="Refresh.h" />
     <ClInclude Include="DataSource\SampleDataSource.h" />
     <ClInclude Include="DataSource\OrderDataSource.h" />
     <ClInclude Include="DataSource\ProductionQueueDataSource.h" />

@@ -9,6 +9,7 @@
 #include "OrderFilter.h"
 #include "OrderStateCounts.h"
 #include "ProductionQueueView.h"
+#include "Refresh.h"
 #include "StockLevel.h"
 
 namespace
@@ -61,6 +62,34 @@ namespace
         }
         return std::nullopt;
     }
+
+    // Formats an integer with thousands separators (e.g. 1630 -> "1,630"),
+    // matching the main-menu summary example in
+    // docs/design/phase6-live-refresh.md.
+    std::string FormatWithThousandsSeparator(long long value)
+    {
+        const bool isNegative = value < 0;
+        std::string digits = std::to_string(isNegative ? -value : value);
+
+        std::string grouped;
+        int digitsSinceSeparator = 0;
+        for (auto it = digits.rbegin(); it != digits.rend(); ++it)
+        {
+            if (digitsSinceSeparator != 0 && digitsSinceSeparator % 3 == 0)
+            {
+                grouped.push_back(',');
+            }
+            grouped.push_back(*it);
+            ++digitsSinceSeparator;
+        }
+
+        if (isNegative)
+        {
+            grouped.push_back('-');
+        }
+
+        return std::string(grouped.rbegin(), grouped.rend());
+    }
 }
 
 ConsoleApp::ConsoleApp(SampleDataSource& samples, OrderDataSource& orders,
@@ -76,6 +105,7 @@ void ConsoleApp::run()
     bool keepRunning = true;
     while (keepRunning)
     {
+        printMainMenuSummary();
         printMenu();
 
         std::string choice;
@@ -88,10 +118,29 @@ void ConsoleApp::run()
     }
 }
 
+void ConsoleApp::printMainMenuSummary()
+{
+    samples_.reload();
+    orders_.reload();
+
+    const auto& sampleList = samples_.all();
+
+    long long totalStock = 0;
+    for (const auto& sample : sampleList)
+    {
+        totalStock += sample.stockQuantity;
+    }
+
+    std::cout << "\n반도체 시료 생산주문관리 시스템 - 데이터 모니터링\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
+    std::cout << "등록 시료 " << sampleList.size() << "종   "
+        << "총 재고 " << FormatWithThousandsSeparator(totalStock) << "ea   "
+        << "전체 주문 " << orders_.all().size() << "건\n";
+}
+
 void ConsoleApp::printMenu() const
 {
-    std::cout << "\n=== DataMonitor ===\n";
-    std::cout << "1. 시료 관리 조회\n";
+    std::cout << "\n1. 시료 관리 조회\n";
     std::cout << "2. 주문 리스트 조회\n";
     std::cout << "3. 모니터링 요약\n";
     std::cout << "4. 생산라인 조회\n";
@@ -146,12 +195,41 @@ bool ConsoleApp::handleChoice(const std::string& choice)
     return true;
 }
 
+void ConsoleApp::runRefreshLoop(const std::function<void()>& render)
+{
+    while (true)
+    {
+        render();
+
+        std::cout << "\n갱신하려면 r, 뒤로 가려면 0을 입력하세요: ";
+
+        std::string choice;
+        if (!readChoice(choice))
+        {
+            return;
+        }
+
+        if (choice == "r" || choice == "R")
+        {
+            continue;
+        }
+
+        return;
+    }
+}
+
 void ConsoleApp::handleSampleView()
+{
+    runRefreshLoop([this]() { printSampleTable(); });
+}
+
+void ConsoleApp::printSampleTable()
 {
     samples_.reload();
     const auto& sampleList = samples_.all();
 
     std::cout << "\n--- 시료 관리 조회 ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
 
     if (sampleList.empty())
     {
@@ -191,11 +269,22 @@ void ConsoleApp::handleOrderListView()
         return;
     }
 
+    // The state filter is chosen once here, not re-prompted on every
+    // refresh: pressing 'r' inside the loop re-queries with the same
+    // filter, matching how the other screens refresh "in place".
     const std::optional<OrderState> stateFilter = ToOrderStateFilter(choice);
 
+    runRefreshLoop([this, stateFilter]() { printOrderTable(stateFilter); });
+}
+
+void ConsoleApp::printOrderTable(std::optional<OrderState> stateFilter)
+{
     orders_.reload();
     const std::vector<DataPersistence::Model::Order> filteredOrders =
         FilterOrdersByState(orders_.all(), stateFilter);
+
+    std::cout << "\n--- 주문 리스트 조회 ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
 
     if (filteredOrders.empty())
     {
@@ -255,10 +344,16 @@ void ConsoleApp::handleMonitoringSummary()
 
 void ConsoleApp::printOrderStateCounts()
 {
+    runRefreshLoop([this]() { printOrderStateCountsBody(); });
+}
+
+void ConsoleApp::printOrderStateCountsBody()
+{
     orders_.reload();
     const OrderStateCounts counts = CountOrdersByState(orders_.all());
 
     std::cout << "\n--- 주문량 확인 (REJECTED 제외) ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
     std::cout << "RESERVED : " << counts.reserved << "\n";
     std::cout << "CONFIRMED: " << counts.confirmed << "\n";
     std::cout << "PRODUCING: " << counts.producing << "\n";
@@ -267,10 +362,16 @@ void ConsoleApp::printOrderStateCounts()
 
 void ConsoleApp::printStockLevels()
 {
+    runRefreshLoop([this]() { printStockLevelsBody(); });
+}
+
+void ConsoleApp::printStockLevelsBody()
+{
     samples_.reload();
     const auto& sampleList = samples_.all();
 
     std::cout << "\n--- 재고량 확인 ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
 
     if (sampleList.empty())
     {
@@ -301,10 +402,16 @@ void ConsoleApp::printStockLevels()
 
 void ConsoleApp::handleProductionLineView()
 {
+    runRefreshLoop([this]() { printProductionLineBody(); });
+}
+
+void ConsoleApp::printProductionLineBody()
+{
     productionQueue_.reload();
     const auto& queue = productionQueue_.all();
 
     std::cout << "\n--- 생산라인 조회 ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
 
     std::cout << "\n[현재 처리 중]\n";
     const std::optional<DataPersistence::Model::ProductionQueueEntry> currentlyProducing =
@@ -360,11 +467,17 @@ void ConsoleApp::handleProductionLineView()
 
 void ConsoleApp::handleReleaseCandidatesView()
 {
+    runRefreshLoop([this]() { printReleaseCandidatesBody(); });
+}
+
+void ConsoleApp::printReleaseCandidatesBody()
+{
     orders_.reload();
     const std::vector<DataPersistence::Model::Order> releaseCandidates =
         FindReleaseCandidates(orders_.all());
 
     std::cout << "\n--- 출고 가능 조회 (CONFIRMED) ---\n";
+    std::cout << "조회 시각: " << CurrentTimestampString() << "\n";
 
     if (releaseCandidates.empty())
     {
