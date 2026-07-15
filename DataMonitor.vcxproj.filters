@@ -50,6 +50,9 @@
     <ClCompile Include="ConsoleApp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="OrderFilter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="DataSource\SampleDataSource.cpp">
       <Filter>DataSource</Filter>
     </ClCompile>
@@ -62,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleApp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="OrderFilter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DataSource\SampleDataSource.h">

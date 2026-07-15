@@ -33,6 +33,15 @@ private:
     // Dispatches a menu choice. Returns false when the user chose to quit.
     bool handleChoice(const std::string& choice);
 
+    // Menu "1. 시료 관리 조회": reloads samples from disk and prints them as a
+    // table (see docs/design/phase1-sample-view.md).
+    void handleSampleView();
+
+    // Menu "2. 주문 리스트 조회": prompts for a state filter, reloads orders
+    // from disk, and prints the matching orders as a table (see
+    // docs/design/phase2-order-list-view.md).
+    void handleOrderListView();
+
     SampleDataSource& samples_;
     OrderDataSource& orders_;
     ProductionQueueDataSource& productionQueue_;

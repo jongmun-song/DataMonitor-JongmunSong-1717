@@ -47,6 +47,12 @@
     <ClCompile Include="Tests\ProductionQueueDataSourceTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="OrderFilter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\OrderFilterTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataSource\SampleDataSource.h">
@@ -72,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="Tests\TestTempFile.h">
       <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="OrderFilter.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,6 +33,21 @@ TEST(SampleDataSourceTest, ReloadOnMissingFileYieldsEmptyListWithoutThrowing)
     EXPECT_TRUE(dataSource.all().empty());
 }
 
+// Phase 1 (docs/design/phase1-sample-view.md) requires handleSampleView() to
+// print "등록된 시료가 없습니다" without crashing when the sample list is
+// empty. Unlike the missing-file case above, this covers an existing file
+// that legitimately contains an empty JSON array ("[]") - e.g. right after
+// DataPersistence has been reset - which is a distinct boundary case for
+// reload()/all().
+TEST(SampleDataSourceTest, ReloadOnEmptyJsonArrayYieldsEmptyList)
+{
+    TestTempFile emptyArrayJson("samples_empty.json", "[]");
+    SampleDataSource dataSource(emptyArrayJson.path());
+
+    EXPECT_NO_THROW(dataSource.reload());
+    EXPECT_TRUE(dataSource.all().empty());
+}
+
 TEST(SampleDataSourceTest, ReloadOnMalformedJsonPropagatesParseError)
 {
     TestTempFile brokenJson("samples_broken.json", "{ this is not valid json ]");
