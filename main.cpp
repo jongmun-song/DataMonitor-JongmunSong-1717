@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include <Windows.h>
+
 #include "ConsoleApp.h"
 #include "DataSource/OrderDataSource.h"
 #include "DataSource/ProductionQueueDataSource.h"
@@ -44,6 +46,13 @@ namespace
 
 int main()
 {
+    // Source literals are UTF-8 (see the /utf-8 compiler flag in
+    // DataMonitor.vcxproj), so the console codepage must also be UTF-8,
+    // otherwise Ctrl+F5 / a plain conhost window renders Korean text as
+    // garbled bytes using the OS default codepage (e.g. CP949/CP437).
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
     const std::filesystem::path storedDataDir = FindStoredDataDir();
 
     SampleDataSource samples(storedDataDir / "samples.json");
